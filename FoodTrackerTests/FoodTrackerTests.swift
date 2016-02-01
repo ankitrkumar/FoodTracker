@@ -33,4 +33,21 @@ class FoodTrackerTests: XCTestCase {
         }
     }
     
+    // MARK: FoodTracker Tests
+    
+    //Tests to confirm that meal initializer returns when there is no name or the rating is negative
+    
+    func testMealInitialization()
+    {
+        let potentialItem = Meal(name: "Newest Meal", photo: nil, rating: 5)
+        XCTAssertNotNil(potentialItem)
+        
+        let noName = Meal(name: "", photo: nil, rating: 3)
+        XCTAssertNil(noName, "NO NAME")
+        
+        let negRating = Meal(name: "some mea;", photo: nil, rating: -3)
+        XCTAssertNil(negRating, "NEGATIVE RATING")
+        
+    }
+
 }
