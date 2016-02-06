@@ -15,13 +15,35 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    @IBAction func cancel(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    /*
+    This value is either passed by MealTableViewController in prepareForSegue(:_sender:) or constructed as part of adding a new meal
+    */
+    
+    var meal:Meal?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Handle the text field's user input through delegate callbacks
         nameTextField.delegate = self
-        
+        checkValidMealName()
+    }
+    
+    // MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if saveButton === sender
+        {
+            let name = nameTextField.text ?? ""
+            let photo = photoImageView.image
+            let rating = ratingControl.rating
+            
+            meal = Meal(name: name, photo: photo, rating: rating)
+            
+        }
     }
     
     //MARK: Actions
@@ -51,7 +73,19 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        
+        checkValidMealName()
+        navigationItem.title = textField.text
+    }
+    
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        saveButton.enabled = false
+    }
+    
+    func checkValidMealName()
+    {
+        let text = nameTextField.text ?? ""
+        saveButton.enabled = !text.isEmpty
     }
     
     // MARK: UIImagePickerControllerDelegate
