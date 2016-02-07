@@ -18,7 +18,16 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     @IBAction func cancel(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        if isPresentingInAddMealMode
+        {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+        else
+        {
+            navigationController!.popViewControllerAnimated(true)
+        }
+        
     }
     /*
     This value is either passed by MealTableViewController in prepareForSegue(:_sender:) or constructed as part of adding a new meal
@@ -30,6 +39,14 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         super.viewDidLoad()
         // Handle the text field's user input through delegate callbacks
         nameTextField.delegate = self
+        
+        if let meal = meal {
+            navigationItem.title = meal.name
+            nameTextField.text = meal.name
+            photoImageView.image = meal.photo
+            ratingControl.rating = meal.rating
+        }
+        
         checkValidMealName()
     }
     
