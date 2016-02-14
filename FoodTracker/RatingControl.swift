@@ -67,11 +67,10 @@ class RatingControl: UIView {
         
         for(index,button) in ratingButtons.enumerate()
         {
-            buttonFrame.origin.x = CGFloat(index * (buttonSize + 5))
+            buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
             button.frame = buttonFrame
-            
         }
-    
+        updateButtonSelectionState()
     }
     
     //MARK: Button Action
